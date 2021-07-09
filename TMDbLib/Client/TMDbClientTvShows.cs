@@ -159,9 +159,10 @@ namespace TMDbLib.Client
             return item;
         }
 
-        public async Task<ChangesContainer> GetTvShowChangesAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<IList<Change>> GetTvShowChangesAsync(int id, int page = 0, DateTime? startDate = null, DateTime? endDate = null, CancellationToken cancellationToken = default)
         {
-            return await GetTvShowMethodInternal<ChangesContainer>(id, TvShowMethods.Changes, cancellationToken: cancellationToken).ConfigureAwait(false);
+            ChangesContainer changesContainer = await GetChangesInternal<ChangesContainer>("tv", page, id, startDate, endDate, cancellationToken).ConfigureAwait(false);
+            return changesContainer.Changes;
         }
 
         public async Task<ResultContainer<ContentRating>> GetTvShowContentRatingsAsync(int id, CancellationToken cancellationToken = default)
